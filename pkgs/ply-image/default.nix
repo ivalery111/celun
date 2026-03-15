@@ -2,7 +2,7 @@
 , fetchgit
 , libpng
 , libdrm
-, pkgconfig}:
+, pkg-config}:
 
 stdenv.mkDerivation {
   pname = "ply-image";
@@ -15,7 +15,7 @@ stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [
-    pkgconfig
+    pkg-config
   ];
   buildInputs = [
     libpng

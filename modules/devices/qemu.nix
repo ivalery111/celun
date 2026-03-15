@@ -28,7 +28,7 @@ let
     types
   ;
   inherit (pkgs)
-    runCommandNoCC
+    runCommand
     stdenv
     writeScript
   ;
@@ -162,7 +162,7 @@ in
         exec "''${args[@]}"
       '';
 
-      output = runCommandNoCC "${config.device.nameForDerivation}-build" {
+      output = runCommand "${config.device.nameForDerivation}-build" {
         passthru = {
           inherit kernel;
         };

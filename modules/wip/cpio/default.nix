@@ -153,7 +153,7 @@ let
           inherit (config) list;
         };
 
-        list = pkgs.runCommandNoCC "cpio.list" { } ''
+        list = pkgs.runCommand "cpio.list" { } ''
           ${concatStringsSep "\n" (mapAttrsToList (name: input: ''
             printf -- '-> Adding "%s" to initramfs\n' "${name}"
             (

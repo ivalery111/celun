@@ -1,5 +1,5 @@
 { lib
-, runCommandNoCC
+, runCommand
 /** Any (recent enough) mainline linux */
 , linux
 , runtimeShell
@@ -33,7 +33,7 @@ let
 in
 
 { name, list }:
-runCommandNoCC name {
+runCommand name {
   nativeBuildInputs = [
     borrowedMkCpio
   ];

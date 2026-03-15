@@ -15,7 +15,7 @@ let
   inherit (config.device) dtbFiles;
   firstDTBFile = "${kernel}/dtbs/${builtins.elemAt dtbFiles 0}";
 
-  # Look-up table to translate from targetPlatform to U-Boot names.
+  # Look-up table to translate from stdenv.targetPlatform to U-Boot names.
   uefiPlatforms = {
     "i686-linux"    = "ia32";
     "x86_64-linux"  =  "x64";
@@ -28,7 +28,7 @@ let
     ${concatStringsSep " " config.boot.cmdline}
   '';
 
-  efiKernel = pkgs.runCommandNoCC "linux_${cfg.platform}.efi" {
+  efiKernel = pkgs.runCommand "linux_${cfg.platform}.efi" {
     nativeBuildInputs = [
       pkgs.stdenv.cc.bintools.bintools_bin
     ];
@@ -86,7 +86,7 @@ in
 
   config = mkIf cfg.enable {
     wip.uefi = {
-      platform = uefiPlatforms.${pkgs.targetPlatform.system};
+      platform = uefiPlatforms.${pkgs.stdenv.targetPlatform.system};
     };
     build.efiKernel = efiKernel;
     build.disk-image = (pkgs.celun.image-builder.evaluateDiskImage {

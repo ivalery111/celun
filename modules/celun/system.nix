@@ -50,9 +50,9 @@ in
   config = {
     assertions = [
       {
-        assertion = pkgs.targetPlatform.system == cfg.system;
+        assertion = pkgs.stdenv.targetPlatform.system == cfg.system;
         message = ''
-          pkgs.targetPlatform.system expected to be `${cfg.system}`, is `${pkgs.targetPlatform.system}`.
+          pkgs.stdenv.targetPlatform.system expected to be `${cfg.system}`, is `${pkgs.stdenv.targetPlatform.system}`.
             TIP: enable `celun.system.automaticCross`, which will impurely automatically enable cross-compilation.
         '';
       }

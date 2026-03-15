@@ -16,7 +16,7 @@ let
   ;
 
   inherit (pkgs)
-    runCommandNoCC
+    runCommand
     writeScript
     writeScriptBin
     writeText
@@ -73,7 +73,7 @@ in
 
       '';
 
-      "/etc/splash.png" = runCommandNoCC "splash" { } ''
+      "/etc/splash.png" = runCommand "splash" { } ''
         mkdir -p $out/etc
         cp ${../../artwork/splash.png} $out/etc/splash.png
       '';
@@ -121,7 +121,7 @@ in
         exec linuxrc
       '';
 
-      extraUtils = runCommandNoCC "hello-celun--initramfs-extraUtils" {
+      extraUtils = runCommand "hello-celun--initramfs-extraUtils" {
         passthru = {
           inherit extraUtils;
         };
@@ -131,7 +131,7 @@ in
       '';
 
       # POSIX requires /bin/sh
-      "/bin/sh" = runCommandNoCC "hello-celun--initramfs-extraUtils-bin-sh" {} ''
+      "/bin/sh" = runCommand "hello-celun--initramfs-extraUtils-bin-sh" {} ''
         mkdir -p $out/bin
         ln -s ${extraUtils}/bin/sh $out/bin/sh
       '';

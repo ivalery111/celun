@@ -38,7 +38,7 @@ in
     inherit (pkgs.linux_rpi1) src;
     version = head (splitString "-" pkgs.linux_rpi1.version);
   };
-  wip.kernel.defconfig = pkgs.buildPackages.runCommandNoCC "defconfig" {
+  wip.kernel.defconfig = pkgs.buildPackages.runCommand "defconfig" {
     inherit (config.wip.kernel.package) src;
   } ''
     sed -e '/=m$/d' \

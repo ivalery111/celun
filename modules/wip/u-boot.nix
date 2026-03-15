@@ -27,7 +27,7 @@ let
   replacementChars = map (_: "-") escapedNodeNameChars;
   escapeNodeName = replaceStrings escapedNodeNameChars replacementChars;
 
-  # Look-up table to translate from targetPlatform to U-Boot names.
+  # Look-up table to translate from stdenv.targetPlatform to U-Boot names.
   u-bootPlatforms = {
     "i686-linux"      = "x86";
     "x86_64-linux"    = "x86_64";
@@ -39,13 +39,13 @@ let
 
   cfg = config.wip.u-boot;
 
-  mkScript = name: text: pkgs.runCommandNoCC name {
+  mkScript = name: text: pkgs.runCommand name {
     file = pkgs.writeText "${name}.cmd" text;
     nativeBuildInputs = [                             
       pkgs.buildPackages.ubootTools                  
     ];                                                
   } ''                                                
-    mkimage -C none -A ${u-bootPlatforms.${pkgs.targetPlatform.system}} -T script -d "$file" "$out"
+    mkimage -C none -A ${u-bootPlatforms.${pkgs.stdenv.targetPlatform.system}} -T script -d "$file" "$out"
   '';                                                 
 
   # This script serves to work around the issue that `bootargs` is not a valid
@@ -77,7 +77,7 @@ let
 
   compression = "lzma";
 
-  compress = { file, name }: pkgs.runCommandNoCC "${name}.${compression}" {
+  compress = { file, name }: pkgs.runCommand "${name}.${compression}" {
     nativeBuildInputs = [
     ];
     inherit file;
@@ -176,7 +176,7 @@ let
     };
   '';
 
-  fitImage = pkgs.runCommandNoCC "${nameForDerivation}.fit" {
+  fitImage = pkgs.runCommand "${nameForDerivation}.fit" {
     nativeBuildInputs = [
       pkgs.buildPackages.dtc
       pkgs.buildPackages.ubootTools
@@ -215,7 +215,7 @@ let
      && source $loadaddr:default-boot
   '';
 
-  filesystemContent = pkgs.runCommandNoCC "${nameForDerivation}-boot" {
+  filesystemContent = pkgs.runCommand "${nameForDerivation}-boot" {
   } ''
     (
     mkdir -p $out
@@ -292,7 +292,7 @@ in
     }
     (mkIf cfg.enable {
       wip.u-boot = {
-        platform = u-bootPlatforms.${pkgs.targetPlatform.system};
+        platform = u-bootPlatforms.${pkgs.stdenv.targetPlatform.system};
         output = {
           fitImage = fitImage;
           inherit filesystemContent;

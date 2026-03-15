@@ -13,12 +13,12 @@ let
 
   compressed = {
     none = cfg.cpio;
-    gzip = pkgs.runCommandNoCC "${cfg.cpio.name}.gz" {
+    gzip = pkgs.runCommand "${cfg.cpio.name}.gz" {
       inherit (cfg) cpio;
     } ''
       cat $cpio | gzip -8 > $out
     '';
-    xz = pkgs.runCommandNoCC "${cfg.cpio.name}.xz" {
+    xz = pkgs.runCommand "${cfg.cpio.name}.xz" {
       nativeBuildInputs = [
         pkgs.buildPackages.xz
       ];

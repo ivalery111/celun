@@ -4,7 +4,7 @@
 
 , linuxConfig
 , linuxManualConfig
-, runCommandNoCC
+, runCommand
 
 , zlib
 , lz4
@@ -49,7 +49,7 @@ let
   #  - apply structured config
   #    -> remove duplicate entries keeping last
   #  - re-"normalize" config against kernel config
-  configfile = runCommandNoCC "linux-merged-config" {} ''
+  configfile = runCommand "linux-merged-config" {} ''
     cat >> $out <<EOF
     #
     # From ${defconfig}

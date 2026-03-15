@@ -173,7 +173,7 @@ in
   config = {
     build.kernel = lib.mkDefault config.wip.kernel.output;
     wip = {
-      kernel.logoPPM = lib.mkIf (cfg.logo != null) (pkgs.runCommandNoCC "logo_linux_clut224.ppm" {
+      kernel.logoPPM = lib.mkIf (cfg.logo != null) (pkgs.runCommand "logo_linux_clut224.ppm" {
         nativeBuildInputs = with pkgs.buildPackages; [
           imagemagick
           netpbm
